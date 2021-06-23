@@ -43,7 +43,7 @@ class AuthController extends Controller
             return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
         }
 
-        $credentials = requst(['email', 'password']);
+        $credentials = request(['email', 'password']);
         if(!Auth::attempt($credentials)){
             return response()->json([
                 'status_code' => 500,
