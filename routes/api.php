@@ -18,13 +18,6 @@ Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 
-Route::get('/user-create', function (Request $request){
-    App\User::create([
-        'name' => 'Danique',
-        'email' => 'test@gmail.com',
-        'password' => 'secretpassword'
-    ]);
-});
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('user', [App\Http\Controllers\AuthController::class, 'user']);
