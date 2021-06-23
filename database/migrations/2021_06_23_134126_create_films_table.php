@@ -21,6 +21,7 @@ class CreateFilmsTable extends Migration
             $table->string('genre');
             $table->string('tijdsduur');
             $table->string('beschrijving');
+            
         });
     }
 
