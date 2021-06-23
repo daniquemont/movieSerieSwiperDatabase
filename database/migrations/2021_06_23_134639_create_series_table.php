@@ -21,7 +21,6 @@ class CreateSeriesTable extends Migration
             $table->string('genre');
             $table->string('aantalSeizoenen');
             $table->string('beschrijving');
-        
         });
     }
 
