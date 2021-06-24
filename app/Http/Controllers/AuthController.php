@@ -83,8 +83,8 @@ class AuthController extends Controller
         // ]);
 
         $fields = $request->validate([
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'email' => 'required|string',
+            'password' => 'required|string'
         ]);
 
         //check email
