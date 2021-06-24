@@ -127,7 +127,9 @@ class AuthController extends Controller
         //     'status_code' => 200,
         //     'token' => $accessToken
         // ]);
-        $user = Auth::user();
+        // $user = Auth::user();
+
+        $user = User::where('email', $request->email)->first();
         
         $token = $user->createToken('token')->plainTextToken;
 
