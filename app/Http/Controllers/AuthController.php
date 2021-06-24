@@ -108,17 +108,17 @@ class AuthController extends Controller
 
         // $user = Auth::user();
 
-        // $validator = Validator::make($request->all(), [
-        //     'email' => 'required|email',
-        //     'password' => 'required',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        // if($validator->fails()){
-        //     return response()->json([
-        //         'status_code' => 400, 
-        //         'message' => 'Bad Request'
-        //     ]);
-        // }
+        if($validator->fails()){
+            return response()->json([
+                'status_code' => 400, 
+                'message' => 'Bad Request'
+            ]);
+        }
         // $user = auth()->user();
         // $token = $user->createToken('authToken');
         // $accessToken = $token->accessToken;
@@ -128,15 +128,7 @@ class AuthController extends Controller
         //     'token' => $accessToken
         // ]);
         $user = Auth::user();
-        if(!$user::attempt($request->only('email', 'password'))){
-            return response([
-                'status_code' => 401,
-                'message' => 'Verkeerde gebruikersnaam of wachtwoord'
-            ]); 
-        }
         
-        
-
         $token = $user->createToken('token')->plainTextToken;
 
         return response([
