@@ -12,27 +12,6 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function register(Request $request){
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required',
-        //     'email' => 'required|email',
-        //     'password' => 'required',
-        // ]);
-
-        // if($validator->fails()){
-        //     return response()->json(['status_code' => 400, 
-        //     'message' => 'Bad Request']);
-        // }
-
-        // $user = new User();
-        // $user->name = $request->name;
-        // $user->email = $request->email;
-        // $user->password = bcrypt($request->password);
-        // $user->save();
-
-        // return response()->json([
-        //     'status_code' => 200,
-        //     'message' => 'User created successfully'
-        // ]);
 
         $fields = $request->validate([
             'name' => 'required|string',
@@ -58,55 +37,6 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        
-
-        // $credentials = request(['email', 'password']);
-        // if(!Auth::attempt($credentials)){
-        //     return response()->json([
-        //         'status_code' => 500,
-        //         'message' => 'Unauthorized'
-        //     ]);
-        // }
-
-        // $tokenResult = $user->createToken('authToken')->plainTextToken;
-        // return response()->json([
-        //     'status_code' => 200,
-        //     'message' => $tokenResult
-        // ]);
-
-        // $fields = $request->validate([
-        //     'email' => 'required|email',
-        //     'password' => 'required|string'
-        // ]);
-
-        // $user = User::where('email', $request->email)->first();
-        
-        // if (! $user || ! Hash::check($request->password, $user->password)) {
-        //     throw ValidationException::withMessages([
-        //         'email' => ['The provided credentials are incorrect.'],
-        //     ]);
-        // }
-
-        // $token = $user->createToken($request->email)->plainTextToken;
-
-        // return response()->json([
-        //     'status_code' => 200,
-        //     'token' => $token
-        // ]);
-
-        // if($fields->fails()){
-        //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
-        // }
-        
-        //check password
-        // if(!$user::attempt($credentials)){
-        //     return response()->json([
-        //         'status_code' => 500,
-        //         'message' => 'Bad creds'
-        //     ]);
-        // }
-
-        // $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -119,24 +49,14 @@ class AuthController extends Controller
                 'message' => 'Bad Request'
             ]);
         }
-        // $user = auth()->user();
-        // $token = $user->createToken('authToken');
-        // $accessToken = $token->accessToken;
+        
+        $user = Auth::user();
 
-        // return response()->json([
-        //     'status_code' => 200,
-        //     'token' => $accessToken
-        // ]);
-        // $user = Auth::user();
-
-        $user = User::where('email', $request->email)->first();
-        $token = $user->createToken('authToken')->plainTextToken;
-        $user->save();
+        $token = $user->createToken('token')->plainTextToken;
 
         return response([
-            'status_code' => 200,
-            'token' => $token 
-        ]);
+            'message' => "U bent ingelogd!" 
+        ], 200);
     }
 
     public function logout(Request $request){
