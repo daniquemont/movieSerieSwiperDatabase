@@ -100,13 +100,11 @@ class AuthController extends Controller
 
         $token = $user->createToken('authToken')->plainTextToken;
 
-        $response = [
-            'user' => $user,
+        return response()->json([
+            'status_code' => 200,
             'token' => $token
-        ];
-
-        // return response($response, 201);
-        return response()->json(User::all());
+        ]);
+        
     }
 
     public function logout(Request $request){
