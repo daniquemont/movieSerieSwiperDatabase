@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Hash;
 
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register']);
 
-Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 
+Route::group(['middleware' => 'web'], function () {
+    Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
+});
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('user', [App\Http\Controllers\AuthController::class, 'user']);
+    // Route::get('user', [App\Http\Controllers\AuthController::class, 'user']);
     Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout']);
 });
