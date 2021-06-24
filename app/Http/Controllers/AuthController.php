@@ -130,12 +130,12 @@ class AuthController extends Controller
         // $user = Auth::user();
 
         $user = User::where('email', $request->email)->first();
-        
-        $token = $user->createToken('token')->plainTextToken;
+        $token = $user->createToken('authToken')->plainTextToken;
+        $user->save();
 
         return response([
             'status_code' => 200,
-            'message' => "U bent ingelogd!" 
+            'token' => $token 
         ]);
     }
 
