@@ -84,7 +84,7 @@ class AuthController extends Controller
         // ]);
 
         $fields = $request->validate([
-            'email' => 'required|string',
+            'email' => 'required|email',
             'password' => 'required|string'
         ]);
 
@@ -98,7 +98,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $token = $user->createToken($request->name)->plainTextToken;
+        $token = $user->createToken('authToken')->plainTextToken;
 
         $response = [
             'user' => $user,
