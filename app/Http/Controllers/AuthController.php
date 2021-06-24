@@ -116,7 +116,7 @@ class AuthController extends Controller
                 'message' => 'Bad Request'
             ]);
         }
-        $user = User::where('email'. $request->email)->first();
+        $user = User::where('email', $request->email)->first();
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
