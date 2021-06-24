@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function register(Request $request){
-        // $validator = Validator::make($request-all(), [
+        // $validator = Validator::make($request->all(), [
         //     'name' => 'required',
         //     'email' => 'required|email',
         //     'password' => 'required',
@@ -58,17 +58,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if($validator->fails()){
-            return response()->json([
-                'status_code' => 400, 
-                'message' => 'Bad Request'
-            ]);
-        }
+        
 
         // $credentials = request(['email', 'password']);
         // if(!Auth::attempt($credentials)){
@@ -94,7 +84,7 @@ class AuthController extends Controller
         // if($fields->fails()){
         //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
         // }
-        $user = Auth::user();
+        
 
         // $credentials = request(['email', 'password']);
 
@@ -113,7 +103,20 @@ class AuthController extends Controller
         //     ]);
         // }
 
-        
+        // $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status_code' => 400, 
+                'message' => 'Bad Request'
+            ]);
+        }
+        $user = User::where('email'. $request->email)->first();
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
@@ -124,11 +127,11 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        $request->user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->revoke();
         
         return response()->json([
             'status_code' => 200, 
-            'message' => 'Token deleted successfully'
+            'message' => 'Successfully log out'
         ]);
 
     }
