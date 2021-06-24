@@ -68,33 +68,36 @@ class AuthController extends Controller
         //     ]);
         // }
 
-        // $user = User::where('email', $request->email)->first();
-
         // $tokenResult = $user->createToken('authToken')->plainTextToken;
         // return response()->json([
         //     'status_code' => 200,
         //     'message' => $tokenResult
         // ]);
 
-        // $fields = $request->validate([
-        //     'email' => 'required|email',
-        //     'password' => 'required|string'
-        // ]);
+        $fields = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $token = $user->createToken($request->email)->plainTextToken;
+
+        return response()->json([
+            'status_code' => 200,
+            'token' => $token
+        ]);
 
         // if($fields->fails()){
         //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
         // }
         
-
-        // $credentials = request(['email', 'password']);
-
-        // if(!$user::attempt($credentials)){
-        //     return response()->json([
-        //         'status_code' => 500,
-        //         'message' => 'Unauthorized'
-        //     ]);
-        // }
-
         //check password
         // if(!$user::attempt($credentials)){
         //     return response()->json([
@@ -105,26 +108,25 @@ class AuthController extends Controller
 
         // $user = Auth::user();
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'email' => 'required|email',
+        //     'password' => 'required',
+        // ]);
 
-        if($validator->fails()){
-            return response()->json([
-                'status_code' => 400, 
-                'message' => 'Bad Request'
-            ]);
-        }
-        // $user = User::where('email', $request->email)->first();
-        $user = auth()->user();
-        $token = $user->createToken('authToken');
-        $accessToken = $token->accessToken;
+        // if($validator->fails()){
+        //     return response()->json([
+        //         'status_code' => 400, 
+        //         'message' => 'Bad Request'
+        //     ]);
+        // }
+        // $user = auth()->user();
+        // $token = $user->createToken('authToken');
+        // $accessToken = $token->accessToken;
 
-        return response()->json([
-            'status_code' => 200,
-            'token' => $accessToken
-        ]);
+        // return response()->json([
+        //     'status_code' => 200,
+        //     'token' => $accessToken
+        // ]);
         
     }
 
