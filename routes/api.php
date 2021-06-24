@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register']);
 
 
-Route::group(['middleware' => 'web'], function () {
+Route::group(['auth'], function () {
     Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 });
 
