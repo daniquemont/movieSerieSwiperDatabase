@@ -88,8 +88,7 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
-        //check email
-        $user = User::where('email', $fields['email'])->first();
+        $user = Auth::user();
 
         //check password
         if(!$user || !Hash::check($fields['password'], $user->password)){
