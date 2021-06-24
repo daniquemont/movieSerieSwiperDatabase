@@ -104,8 +104,8 @@ class AuthController extends Controller
 
         //check password
         if(!$user::attempt($credentials)){
-            return response([
-                'status_code' => 500
+            return response()->json([
+                'status_code' => 500,
                 'message' => 'Bad creds'
             ]);
         }
