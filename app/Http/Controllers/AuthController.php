@@ -91,10 +91,11 @@ class AuthController extends Controller
         // if($fields->fails()){
         //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
         // }
+        $user = Auth::user();
 
         $credentials = request(['email', 'password']);
 
-        if(!Auth::attempt($credentials)){
+        if(!$user::attempt($credentials)){
             return response()->json([
                 'status_code' => 500,
                 'message' => 'Unauthorized'
@@ -108,7 +109,7 @@ class AuthController extends Controller
         //     ], 401);
         // }
 
-        $user = Auth::user();
+        
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
