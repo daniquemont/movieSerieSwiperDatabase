@@ -62,7 +62,7 @@ class AuthController extends Controller
             }
         }else{
             $response = ['message' => 'User does not exist'];
-            return response($reponse, 422);
+            return response($response, 422);
         }
 
         // $user = Auth::user();
