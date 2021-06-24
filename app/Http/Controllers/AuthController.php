@@ -93,7 +93,7 @@ class AuthController extends Controller
         // }
         $user = Auth::user();
 
-        // $credentials = request(['email', 'password']);
+        $credentials = request(['email', 'password']);
 
         // if(!$user::attempt($credentials)){
         //     return response()->json([
@@ -103,10 +103,11 @@ class AuthController extends Controller
         // }
 
         //check password
-        if(!$user || !Hash::check($fields['password'], $user->password)){
+        if(!$user::attempt($credentials)){
             return response([
+                'status_code' => 500
                 'message' => 'Bad creds'
-            ], 401);
+            ]);
         }
 
         
