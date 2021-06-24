@@ -118,11 +118,12 @@ class AuthController extends Controller
         }
         // $user = User::where('email', $request->email)->first();
         $user = auth()->user();
-        $token = $user->createToken('authToken')->plainTextToken;
+        $token = $user->createToken('authToken');
+        $accessToken = $token->accessToken;
 
         return response()->json([
             'status_code' => 200,
-            'token' => $token
+            'token' => $accessToken
         ]);
         
     }
