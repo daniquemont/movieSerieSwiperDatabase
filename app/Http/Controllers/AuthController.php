@@ -51,9 +51,9 @@ class AuthController extends Controller
         }
         
         $user = Auth::user();
-        dd($user);
+        print_r($user);
         $token = $user->createToken('token')->plainTextToken;
-        
+
         return response([
             'message' => "U bent ingelogd!" 
         ], 200);
