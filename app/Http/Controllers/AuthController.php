@@ -74,25 +74,25 @@ class AuthController extends Controller
         //     'message' => $tokenResult
         // ]);
 
-        $fields = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string'
-        ]);
+        // $fields = $request->validate([
+        //     'email' => 'required|email',
+        //     'password' => 'required|string'
+        // ]);
 
-        $user = User::where('email', $request->email)->first();
+        // $user = User::where('email', $request->email)->first();
         
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
+        // if (! $user || ! Hash::check($request->password, $user->password)) {
+        //     throw ValidationException::withMessages([
+        //         'email' => ['The provided credentials are incorrect.'],
+        //     ]);
+        // }
 
-        $token = $user->createToken($request->email)->plainTextToken;
+        // $token = $user->createToken($request->email)->plainTextToken;
 
-        return response()->json([
-            'status_code' => 200,
-            'token' => $token
-        ]);
+        // return response()->json([
+        //     'status_code' => 200,
+        //     'token' => $token
+        // ]);
 
         // if($fields->fails()){
         //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
@@ -128,6 +128,21 @@ class AuthController extends Controller
         //     'token' => $accessToken
         // ]);
         
+        if(!Auth::attempt($request->only('email', 'password'))){
+            return response([
+                'status_code' => 401,
+                'message' => 'Verkeerde gebruikersnaam of wachtwoord'
+            ]); 
+        }
+        
+        $user = Auth::user();
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        return response([
+            'status_code' => 200,
+            'message' => "U bent ingelogd!" 
+        ]);
     }
 
     public function logout(Request $request){
