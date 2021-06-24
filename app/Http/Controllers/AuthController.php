@@ -93,21 +93,21 @@ class AuthController extends Controller
         // }
         $user = Auth::user();
 
-        $credentials = request(['email', 'password']);
+        // $credentials = request(['email', 'password']);
 
-        if(!$user::attempt($credentials)){
-            return response()->json([
-                'status_code' => 500,
-                'message' => 'Unauthorized'
-            ]);
-        }
+        // if(!$user::attempt($credentials)){
+        //     return response()->json([
+        //         'status_code' => 500,
+        //         'message' => 'Unauthorized'
+        //     ]);
+        // }
 
         //check password
-        // if(!$user || !Hash::check($fields['password'], $user->password)){
-        //     return response([
-        //         'message' => 'Bad creds'
-        //     ], 401);
-        // }
+        if(!$user || !Hash::check($fields['password'], $user->password)){
+            return response([
+                'message' => 'Bad creds'
+            ], 401);
+        }
 
         
         $token = $user->createToken('authToken')->plainTextToken;
