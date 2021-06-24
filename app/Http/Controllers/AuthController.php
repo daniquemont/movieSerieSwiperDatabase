@@ -58,14 +58,17 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        // $validator = Validator::make($request-all(), [
-        //     'email' => 'required|email',
-        //     'password' => 'required',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        // if($validator->fails()){
-        //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
-        // }
+        if($validator->fails()){
+            return response()->json([
+                'status_code' => 400, 
+                'message' => 'Bad Request'
+            ]);
+        }
 
         // $credentials = request(['email', 'password']);
         // if(!Auth::attempt($credentials)){
@@ -83,17 +86,17 @@ class AuthController extends Controller
         //     'message' => $tokenResult
         // ]);
 
-        $fields = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string'
-        ]);
+        // $fields = $request->validate([
+        //     'email' => 'required|email',
+        //     'password' => 'required|string'
+        // ]);
 
         // if($fields->fails()){
         //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
         // }
         $user = Auth::user();
 
-        $credentials = request(['email', 'password']);
+        // $credentials = request(['email', 'password']);
 
         // if(!$user::attempt($credentials)){
         //     return response()->json([
@@ -103,12 +106,12 @@ class AuthController extends Controller
         // }
 
         //check password
-        if(!$user::attempt($credentials)){
-            return response()->json([
-                'status_code' => 500,
-                'message' => 'Bad creds'
-            ]);
-        }
+        // if(!$user::attempt($credentials)){
+        //     return response()->json([
+        //         'status_code' => 500,
+        //         'message' => 'Bad creds'
+        //     ]);
+        // }
 
         
         $token = $user->createToken('authToken')->plainTextToken;
