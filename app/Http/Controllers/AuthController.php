@@ -88,9 +88,9 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
-        if($fields->fails()){
-            return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
-        }
+        // if($fields->fails()){
+        //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
+        // }
 
         $credentials = request(['email', 'password']);
 
