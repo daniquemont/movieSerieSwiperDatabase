@@ -11,27 +11,49 @@ use Illuminate\Http\Response;
 class AuthController extends Controller
 {
     public function register(Request $request){
-        $validator = Validator::make($request-all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
+        // $validator = Validator::make($request-all(), [
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        //     'password' => 'required',
+        // ]);
+
+        // if($validator->fails()){
+        //     return response()->json(['status_code' => 400, 
+        //     'message' => 'Bad Request']);
+        // }
+
+        // $user = new User();
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // $user->password = bcrypt($request->password);
+        // $user->save();
+
+        // return response()->json([
+        //     'status_code' => 200,
+        //     'message' => 'User created successfully'
+        // ]);
+
+        $fields = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            
         ]);
 
-        if($validator->fails()){
-            return response()->json(['status_code' => 400, 
-            'message' => 'Bad Request']);
-        }
-
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        return response()->json([
-            'status_code' => 200,
-            'message' => 'User created successfully'
+        $user = User::create([
+            'name' => $fields['name'],
+            'email' => $fields['email'],
+            'password' => bcrypt($fields['password'])
         ]);
+
+        $token = $user->createToken($request->name)->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
     }
 
     public function login(Request $request){
