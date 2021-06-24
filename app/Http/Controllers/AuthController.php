@@ -50,9 +50,24 @@ class AuthController extends Controller
             ]);
         }
         
-        $user = Auth::user();
-        print_r($user);
-        $token = $user->createToken('token')->plainTextToken;
+        $user = User::where('email', $request->email)->first();
+        if($user){
+            if(Hash::check($request->password, $user->password)){
+                $token = $user->createToken('authToken')->accessToken;
+                $response = ['token' => $token];
+                return $response($response, 200);
+            }else{
+                $response = ['message' => 'Password mismatch'];
+                return response($response, 422);
+            }
+        }else{
+            $response = ['message' => 'User does not exist'];
+            return response($reponse, 422);
+        }
+
+        // $user = Auth::user();
+        // print_r($user);
+        // $token = $user->createToken('token')->plainTextToken;
 
         return response([
             'message' => "U bent ingelogd!" 
