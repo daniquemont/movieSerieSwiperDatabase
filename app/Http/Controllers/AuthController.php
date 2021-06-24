@@ -57,30 +57,55 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        $validator = Validator::make($request-all(), [
-            'email' => 'required|email',
-            'password' => 'required',
+        // $validator = Validator::make($request-all(), [
+        //     'email' => 'required|email',
+        //     'password' => 'required',
+        // ]);
+
+        // if($validator->fails()){
+        //     return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
+        // }
+
+        // $credentials = request(['email', 'password']);
+        // if(!Auth::attempt($credentials)){
+        //     return response()->json([
+        //         'status_code' => 500,
+        //         'message' => 'Unauthorized'
+        //     ]);
+        // }
+
+        // $user = User::where('email', $request->email)->first();
+
+        // $tokenResult = $user->createToken('authToken')->plainTextToken;
+        // return response()->json([
+        //     'status_code' => 200,
+        //     'message' => $tokenResult
+        // ]);
+
+        $fields = $request->validate([
+            'email' => 'required|string|unique:users,email',
+            'password' => 'required|string|confirmed'
         ]);
 
-        if($validator->fails()){
-            return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
+        //check email
+        $user = User::where('email', $fields['email'])->first();
+
+        //check password
+        if(!$user || !Hash::check($fields['password'], $user->password)){
+            return response([
+                'message' => 'Bad creds'
+            ], 401);
         }
 
-        $credentials = request(['email', 'password']);
-        if(!Auth::attempt($credentials)){
-            return response()->json([
-                'status_code' => 500,
-                'message' => 'Unauthorized'
-            ]);
-        }
+        $token = $user->createToken($request->name)->plainTextToken;
 
-        $user = User::where('email', $request->email)->first();
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
 
-        $tokenResult = $user->createToken('authToken')->plainTextToken;
-        return response()->json([
-            'status_code' => 200,
-            'message' => $tokenResult
-        ]);
+        // return response($response, 201);
+        return response()->json(User::all());
     }
 
     public function logout(Request $request){
