@@ -18,7 +18,8 @@ class AuthController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json(['status_code' => 400, 'message' => 'Bad Request']);
+            return response()->json(['status_code' => 400, 
+            'message' => 'Bad Request']);
         }
 
         $user = new User();
