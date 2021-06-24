@@ -127,15 +127,15 @@ class AuthController extends Controller
         //     'status_code' => 200,
         //     'token' => $accessToken
         // ]);
-        
-        if(!Auth::attempt($request->only('email', 'password'))){
+        $user = Auth::user();
+        if(!$user::attempt($request->only('email', 'password'))){
             return response([
                 'status_code' => 401,
                 'message' => 'Verkeerde gebruikersnaam of wachtwoord'
             ]); 
         }
         
-        $user = Auth::user();
+        
 
         $token = $user->createToken('token')->plainTextToken;
 
