@@ -10,7 +10,7 @@ class TokenModel extends PersonalAccessToken
 
     public function __construct() {
 
-        $this->table = config('app.db_table_prefix') . 'tokens';
+        $this->table = config('app.db_table_prefix') . 'personal_access_tokens';
 
     }
 }
