@@ -70,10 +70,17 @@ class AuthController extends Controller
         // print_r($user);
         $token = $user->createToken('token')->plainTextToken;
 
-        return response()->json([
-            'status_code' => 200,
-            'token' => $token
-        ]);
+        $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
+
+        return response([
+            'message' => "U bent ingelogd!",
+            'token' => $token 
+        ], 200)->withCookie($cookie);
+
+        // return response()->json([
+        //     'status_code' => 200,
+        //     'token' => $token
+        // ]);
     }
 
     public function logout(Request $request){
