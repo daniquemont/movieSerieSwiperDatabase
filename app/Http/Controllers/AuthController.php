@@ -44,8 +44,7 @@ class AuthController extends Controller
     public function login(Request $request){
 
         $validator = Validator::make($request->all(), [
-            // 'email' => 'required|email',
-            'name' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
@@ -57,14 +56,14 @@ class AuthController extends Controller
         }
        
         
-        $user = User::where('name', $request->name)->first();
+        $user = User::where('email', $request->email)->first();
 
         if($user){
             if(Hash::check($request->password, $user->password)){
-                $users = Auth::user();//error: createToken() on null
+                // $users = Auth::user();//error: createToken() on null
                
-                $token = $users->createToken('token')->accessToken;
-
+                // $token = $users->createToken('token')->accessToken;
+                $token = $user->createToken('token')->accessToken;
                 
                 $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
