@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         if($user){
             if(Hash::check($request->password, $user->password)){
-                $users = Auth::user();
+                // $users = Auth::user();//error: createToken() on null 
                 $token = $users->createToken('token')->accessToken;
 
                 dd(
