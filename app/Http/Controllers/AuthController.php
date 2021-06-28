@@ -60,13 +60,13 @@ class AuthController extends Controller
 
         if($user){
             if(Hash::check($request->password, $user->password)){
-                // $users = Auth::user();//error: createToken() on null 
-                $token = $user->createToken('token')->accessToken;
-
+                $users = Auth::user();//error: createToken() on null
                 dd(
-                    $user ?? '?',
-                    $token ?? '?'
-                );
+                    $users ?? '?',
+                ); 
+                $token = $users->createToken('token')->accessToken;
+
+                
                 $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
                 return response()->json([
