@@ -50,6 +50,13 @@ class AuthController extends Controller
                 'message' => 'Bad Request'
             ]);
         }
+        dd(
+            auth()->user() ?? '?',
+            Auth::user() ?? '?',
+            $request->user() ?? '?',
+            auth()->check(),
+            get_class(auth()->guard())
+        );
         
         $user = User::where('email', $request->email)->first();
         if($user){
