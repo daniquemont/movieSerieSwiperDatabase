@@ -56,14 +56,14 @@ class AuthController extends Controller
         }
        
         
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
 
         if($user){
             if(Hash::check($request->password, $user->password)){
-                // $users = Auth::user();//error: createToken() on null
+                $users = Auth::user();//error: createToken() on null
                
-                // $token = $users->createToken('token')->accessToken;
-                $token = $user->createToken('token')->accessToken;
+                $token = $users->createToken('token')->accessToken;
+                // $token = $user->createToken('token')->accessToken;
                 
                 $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
