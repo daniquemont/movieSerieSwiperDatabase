@@ -54,7 +54,8 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if($user){
             if(Hash::check($request->password, $user->password)){
-                $token = $user->createToken('authToken')->accessToken;
+                $users = Auth::user();
+                $token = $users->createToken('authToken')->accessToken;
                 $response = ['token' => $token];
                 return $response($response, 200);
             }else{
@@ -66,16 +67,16 @@ class AuthController extends Controller
             return response($response, 422);
         }
 
-        $users = Auth::user();
-        // print_r($user);
-        $token = $users->createToken('token')->plainTextToken;
+        // $users = Auth::user();
+        // // print_r($user);
+        // $token = $users->createToken('token')->plainTextToken;
 
-        $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
+        // $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
-        return response([
-            'message' => "U bent ingelogd!",
-            'token' => $token 
-        ], 200)->withCookie($cookie);
+        // return response([
+        //     'message' => "U bent ingelogd!",
+        //     'token' => $token 
+        // ], 200)->withCookie($cookie);
 
         // return response()->json([
         //     'status_code' => 200,
