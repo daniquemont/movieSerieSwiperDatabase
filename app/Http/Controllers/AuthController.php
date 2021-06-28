@@ -28,12 +28,16 @@ class AuthController extends Controller
 
         $token = $user->createToken($request->name)->plainTextToken;
 
-        $response = [
+        // $response = [
+        //     'user' => $user,
+        //     'token' => $token
+        // ];
+
+        // return response($response, 201);
+        return response()->json([
             'user' => $user,
             'token' => $token
-        ];
-
-        return response($response, 201);
+        ]);
 
     }
 
@@ -53,21 +57,19 @@ class AuthController extends Controller
        
         
         $user = User::where('email', $request->email)->first();
-        dd(
-            $user ?? '?',
-            auth()->user() ?? '?',
-            Auth::user() ?? '?',
-            $request->all() ?? '?',
-            auth()->check(),
-            get_class(auth()->guard())
-        );
+
         if($user){
             if(Hash::check($request->password, $user->password)){
                 $users = Auth::user();
                 $token = $users->createToken('authToken')->accessToken;
+
+                dd(
+                    $users ?? '?',
+                    $token ?? '?'
+                );
                 $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
-                return response([
+                return response()->json([
                     'message' => "U bent ingelogd!",
                     'token' => $token 
                 ], 200)->withCookie($cookie);
