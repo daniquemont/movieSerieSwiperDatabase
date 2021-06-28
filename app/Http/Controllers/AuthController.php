@@ -26,7 +26,7 @@ class AuthController extends Controller
             'password' => bcrypt($fields['password'])
         ]);
 
-        $token = $user->createToken($request->name)->plainTextToken;
+        // $token = $user->createToken($request->name)->plainTextToken;
 
         // $response = [
         //     'user' => $user,
@@ -36,7 +36,7 @@ class AuthController extends Controller
         // return response($response, 201);
         return response()->json([
             'user' => $user,
-            'token' => $token
+            // 'token' => $token
         ]);
 
     }
@@ -61,7 +61,7 @@ class AuthController extends Controller
         if($user){
             if(Hash::check($request->password, $user->password)){
                 $users = Auth::user();
-                $token = $users->createToken('authToken')->accessToken;
+                $token = $users->createToken('token')->accessToken;
 
                 dd(
                     $users ?? '?',
