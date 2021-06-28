@@ -20,7 +20,7 @@ class AuthController extends Controller
             
         // ]);
 
-        $user = User::create([
+        return User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
@@ -34,10 +34,10 @@ class AuthController extends Controller
         // ];
 
         // return response($response, 201);
-        return response()->json([
-            'user' => $user,
-            // 'token' => $token
-        ]);
+        // return response()->json([
+        //     'user' => $user,
+        //     // 'token' => $token
+        // ]);
 
     }
 
