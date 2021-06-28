@@ -44,7 +44,8 @@ class AuthController extends Controller
     public function login(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+            // 'email' => 'required|email',
+            'name' => 'required',
             'password' => 'required',
         ]);
 
@@ -56,7 +57,7 @@ class AuthController extends Controller
         }
        
         
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('name', $request->name)->first();
 
         if($user){
             if(Hash::check($request->password, $user->password)){
