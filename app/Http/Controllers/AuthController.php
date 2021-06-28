@@ -65,16 +65,16 @@ class AuthController extends Controller
             if(Hash::check($request->password, $user->password)){
                 $users = Auth::user();
                 $token = $users->createToken('authToken')->accessToken;
-                // $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
+                $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
-                // return response([
-                //     'message' => "U bent ingelogd!",
-                //     'token' => $token 
-                // ], 200)->withCookie($cookie);
-                return response()->json([
-                    'status_code' => 200,
-                    'token' => $token
-                ]);
+                return response([
+                    'message' => "U bent ingelogd!",
+                    'token' => $token 
+                ], 200)->withCookie($cookie);
+                // return response()->json([
+                //     'status_code' => 200,
+                //     'token' => $token
+                // ]);
             }else{
                 $response = ['message' => 'Password mismatch'];
                 return response($response, 422);
