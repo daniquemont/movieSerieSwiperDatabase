@@ -65,8 +65,12 @@ class AuthController extends Controller
             if(Hash::check($request->password, $user->password)){
                 $users = Auth::user();
                 $token = $users->createToken('authToken')->accessToken;
-                $response = ['token' => $token];
-                return $response($response, 200);
+                $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
+
+                return response([
+                    'message' => "U bent ingelogd!",
+                    'token' => $token 
+                ], 200)->withCookie($cookie);
             }else{
                 $response = ['message' => 'Password mismatch'];
                 return response($response, 422);
@@ -80,12 +84,7 @@ class AuthController extends Controller
         // // print_r($user);
         // $token = $users->createToken('token')->plainTextToken;
 
-        // $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
-
-        // return response([
-        //     'message' => "U bent ingelogd!",
-        //     'token' => $token 
-        // ], 200)->withCookie($cookie);
+        
 
         // return response()->json([
         //     'status_code' => 200,
