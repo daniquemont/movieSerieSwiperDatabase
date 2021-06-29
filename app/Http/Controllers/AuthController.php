@@ -67,11 +67,12 @@ class AuthController extends Controller
 
                 $users = User::find(Auth::id('user_id'));
                 $test = User::find(Auth::user());
-                $token = $users->createToken('token')->accessToken;
+                
+                // $token = $users->createToken('token')->accessToken;
                 dd(
                     $users ?? '?',
                     $test ?? '?',
-                    $token ?? '?'
+                    // $token ?? '?'
                 );
                 
                 $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
