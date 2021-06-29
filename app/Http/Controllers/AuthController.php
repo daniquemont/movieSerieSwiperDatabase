@@ -54,7 +54,14 @@ class AuthController extends Controller
                 'message' => 'Bad Request'
             ]);
         }
-       
+        dd(
+            User::find(Auth::id('user_id')) ?? '?',
+            User::find(Auth::id()) ?? '?',
+            User::find(Auth::user()) ?? '?',
+            User::find(Auth::user()->id()) ?? '?',
+            User::find(Auth::user()->id('user_id')) ?? '?',
+            // $token ?? '?'
+        );
         
         $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
 
@@ -69,14 +76,7 @@ class AuthController extends Controller
                 // $test = User::find(Auth::user());
                 
                 // $token = $users->createToken('token')->accessToken;
-                dd(
-                    User::find(Auth::id('user_id')) ?? '?',
-                    User::find(Auth::id()) ?? '?',
-                    User::find(Auth::user()) ?? '?',
-                    User::find(Auth::user()->id()) ?? '?',
-                    User::find(Auth::user()->id('user_id')) ?? '?',
-                    // $token ?? '?'
-                );
+               
                 
                 $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
