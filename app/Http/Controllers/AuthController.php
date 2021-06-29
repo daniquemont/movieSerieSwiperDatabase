@@ -70,11 +70,11 @@ class AuthController extends Controller
                 
                 // $token = $users->createToken('token')->accessToken;
                 dd(
-                    User::find(Auth::id('user_id') ?? '?',
-                    User::find(Auth::id() ?? '?',
-                    User::find(Auth::user() ?? '?',
-                    User::find(Auth::user()->id() ?? '?',
-                    User::find(Auth::user()->id('user_id') ?? '?',
+                    User::find(Auth::id('user_id')) ?? '?',
+                    User::find(Auth::id()) ?? '?',
+                    User::find(Auth::user()) ?? '?',
+                    User::find(Auth::user()->id()) ?? '?',
+                    User::find(Auth::user()->id('user_id')) ?? '?',
                     // $token ?? '?'
                 );
                 
