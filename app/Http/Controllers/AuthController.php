@@ -65,8 +65,14 @@ class AuthController extends Controller
                 // $token = $users->createToken('token')->accessToken;
                 // $token = $user->createToken('token')->accessToken;
 
-                $users = User::find(Auth::id());
+                $users = User::find(Auth::id('user_id'));
+                $test = User::find(Auth::user());
                 $token = $users->createToken('token')->accessToken;
+                dd(
+                    $users ?? '?',
+                    $test ?? '?',
+                    $token ?? '?'
+                );
                 
                 $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
