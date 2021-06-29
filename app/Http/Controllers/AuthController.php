@@ -64,8 +64,11 @@ class AuthController extends Controller
         // ]);
         if($user){
             if(Hash::check($request->password, $user->password)){
-                $users = Auth::user();//error: createToken() on null
-               
+                // $users = Auth::user();//error: createToken() on null
+                $users = Auth::guard('api')->user();
+                dd(
+                    $users ?? '?'
+                );
                 $token = $users->createToken('token')->accessToken;
                 // $token = $user->createToken('token')->accessToken;
 
