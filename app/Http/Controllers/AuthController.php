@@ -55,11 +55,7 @@ class AuthController extends Controller
                 'message' => 'Bad Request'
             ]);
         }
-        $users = Auth::user();//error: createToken() on null
-        dd(
-            $users ?? '?'
-        );
-        
+              
         
         $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
         
@@ -73,7 +69,7 @@ class AuthController extends Controller
                 //     $users ?? '?'
                 // );
                 // $token = $users->createToken('token')->accessToken;
-                // $token = $user->createToken('token')->accessToken;
+                $token = $user->createToken('token')->accessToken;
 
                 // $users = User::find(Auth::id('user_id'));
                 // $test = User::find(Auth::user());
