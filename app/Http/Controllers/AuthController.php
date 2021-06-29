@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -64,8 +65,7 @@ class AuthController extends Controller
         // ]);
         if($user){
             if(Hash::check($request->password, $user->password)){
-                // $users = Auth::user();//error: createToken() on null
-                $users = Auth::guard('api')->user();
+                $users = Auth::user()->users;//error: createToken() on null
                 dd(
                     $users ?? '?'
                 );
