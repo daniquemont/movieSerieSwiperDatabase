@@ -54,17 +54,14 @@ class AuthController extends Controller
                 'message' => 'Bad Request'
             ]);
         }
-        dd(
-            // User::find(Auth::id('user_id')) ?? '?',
-            // User::find(Auth::id()) ?? '?',
-            // User::find(Auth::user()) ?? '?', //Access denied for user 'sql11420768'@'64.227.67.126'
-            // User::find(Auth::user()->id()) ?? '?',
-            // User::find(Auth::user()->id('user_id')) ?? '?',
-            User::where('email', $request->email)->first() ?? '?'
-        );
         
-        // $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
-
+        
+        
+        $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
+        
+        return response()->json([
+            'user' => $user
+        ]);
         // if($user){
         //     if(Hash::check($request->password, $user->password)){
         //         $users = Auth::user();//error: createToken() on null
