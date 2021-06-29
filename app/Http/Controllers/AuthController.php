@@ -55,47 +55,47 @@ class AuthController extends Controller
             ]);
         }
         dd(
-            User::find(Auth::id('user_id')) ?? '?',
+            // User::find(Auth::id('user_id')) ?? '?',
             // User::find(Auth::id()) ?? '?',
             // User::find(Auth::user()) ?? '?', //Access denied for user 'sql11420768'@'64.227.67.126'
             // User::find(Auth::user()->id()) ?? '?',
-            // User::find(Auth::user()->id('user_id')) ?? '?',
+            User::find(Auth::user()->id('user_id')) ?? '?',
             // $token ?? '?'
         );
         
-        $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
+        // $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
 
-        if($user){
-            if(Hash::check($request->password, $user->password)){
-                // $users = Auth::user();//error: createToken() on null
+        // if($user){
+        //     if(Hash::check($request->password, $user->password)){
+        //         $users = Auth::user();//error: createToken() on null
                
-                // $token = $users->createToken('token')->accessToken;
-                // $token = $user->createToken('token')->accessToken;
+        //         $token = $users->createToken('token')->accessToken;
+        //         // $token = $user->createToken('token')->accessToken;
 
-                // $users = User::find(Auth::id('user_id'));
-                // $test = User::find(Auth::user());
+        //         // $users = User::find(Auth::id('user_id'));
+        //         // $test = User::find(Auth::user());
                 
-                // $token = $users->createToken('token')->accessToken;
+        //         // $token = $users->createToken('token')->accessToken;
                
                 
-                $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
+        //         $cookie = cookie('jwt', $token, 60 * 24); // 1 dag
 
-                return response()->json([
-                    'message' => "U bent ingelogd!",
-                    'token' => $token 
-                ], 200)->withCookie($cookie);
-                // return response()->json([
-                //     'status_code' => 200,
-                //     'token' => $token
-                // ]);
-            }else{
-                $response = ['message' => 'Password mismatch'];
-                return response($response, 422);
-            }
-        }else{
-            $response = ['message' => 'User does not exist'];
-            return response($response, 422);
-        }
+        //         return response()->json([
+        //             'message' => "U bent ingelogd!",
+        //             'token' => $token 
+        //         ], 200)->withCookie($cookie);
+        //         // return response()->json([
+        //         //     'status_code' => 200,
+        //         //     'token' => $token
+        //         // ]);
+        //     }else{
+        //         $response = ['message' => 'Password mismatch'];
+        //         return response($response, 422);
+        //     }
+        // }else{
+        //     $response = ['message' => 'User does not exist'];
+        //     return response($response, 422);
+        // }
 
         // $users = Auth::user();
         // // print_r($user);
