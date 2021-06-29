@@ -59,8 +59,8 @@ class AuthController extends Controller
             // User::find(Auth::id()) ?? '?',
             // User::find(Auth::user()) ?? '?', //Access denied for user 'sql11420768'@'64.227.67.126'
             // User::find(Auth::user()->id()) ?? '?',
-            User::find(Auth::user()->id('user_id')) ?? '?',
-            // $token ?? '?'
+            // User::find(Auth::user()->id('user_id')) ?? '?',
+            User::where('email', $request->email)->first() ?? '?'
         );
         
         // $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
