@@ -55,7 +55,10 @@ class AuthController extends Controller
                 'message' => 'Bad Request'
             ]);
         }
-        
+        $users = Auth::user();//error: createToken() on null
+        dd(
+            $users ?? '?'
+        );
         
         
         $user = User::where('email', $request->email)->first(); //'tokenable_id' cannot be null
@@ -65,11 +68,11 @@ class AuthController extends Controller
         // ]);
         if($user){
             if(Hash::check($request->password, $user->password)){
-                $users = Auth::user()->users;//error: createToken() on null
-                dd(
-                    $users ?? '?'
-                );
-                $token = $users->createToken('token')->accessToken;
+                // $users = Auth::user();//error: createToken() on null
+                // dd(
+                //     $users ?? '?'
+                // );
+                // $token = $users->createToken('token')->accessToken;
                 // $token = $user->createToken('token')->accessToken;
 
                 // $users = User::find(Auth::id('user_id'));
